@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+    </head>
+    <body>
+        <h1>Hello {{user.name}}!</h1>
+
+    <h2>Your Trip Schedules</h2>
+        <table>
+        <thead>
+            <tr>
+            <th>Destination</th>
+            <th>Travel Start Date</th>
+            <th>Travel End Date</th>
+            <th>Plan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trip in itinerary %}
+            <tr>
+            <td><a href="{% url 'travel:my_destination' tripid=trip.id %}">{{ trip.destination }}</a></td>
+            <td>{{ trip.date_from }}</td>
+            <td>{{ trip.date_to }}</td>
+            <td>{{ trip.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+
+    <h2>Other User's Travel Plans</h2>
+        <table>
+        <thead>
+            <tr>
+            <th>Name</th>
+            <th>Destination</th>
+            <th>Travel Start Date</th>
+            <th>Travel End Date</th>
+            <th>Do you want to join?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trip in otherplans %}
+            <tr>
+            <td>{{ trip.created_by.name }}</td>
+            <td><a href="{% url 'travel:my_destination' tripid=trip.id %}">{{ trip.destination }}</a></td>
+            <td>{{ trip.date_from }}</td>
+            <td>{{ trip.date_to }}</td>
+            <td><form action='{% url "travel:my_join" userid=user.id tripid=trip.id %}' method='post'>
+                {% csrf_token %}
+                <input type='submit' value='Join'></form></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        
+        <form action='{% url "travel:my_addplan" id=user.id %}' method='post'>
+            {% csrf_token %}
+            <input type='submit' value='Add Travel Plan'>
+        </form>
+
+        <form action='/logout' method='post'>
+            {% csrf_token %}
+            <input type='submit' value='LOGOUT'>
+        </form>
+    </body>
+</html>

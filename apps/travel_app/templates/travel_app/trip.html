@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        {% load staticfiles %}
+        <link rel='stylesheet' href='{% static 'first_app/css/styles.css' %}'>
+        <script src='{% static 'first_app/js/main.js' %}' > </script>
+    </head>
+    <body>
+        <div>
+        <h1>{{ trip.destination }}</h1>
+        <h4>Planned By: {{ trip.created_by }}</h4>
+        <h4>Description: {{ trip.description }}</h4>
+        <h4>Travel Date From: {{ trip.date_from }}</h4>
+        <h4>Travel Date To: {{ trip.date_to }}</h4>
+        </div>
+        <div>
+        <h2>Other users joining the trip:</h2>
+        {% for people in attendees %}
+        <h4>{{ people.name }}</h4>
+        {% endfor %}
+        </div>
+    </body>
+</html>
